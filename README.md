@@ -14,7 +14,7 @@ This project is a **Simple Wordle Clone** built using plain **JavaScript**. It i
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone [repository-link]
+   git clone https://github.com/techcsispit/Wordle-Game-JS
    ```
 2. Navigate to the project folder.
 3. Open the `index.html` file in your browser to start playing.
