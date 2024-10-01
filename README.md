@@ -37,4 +37,4 @@ We welcome contributions to the project. Please feel free to submit bug fixes, i
 If you encounter any bugs or have feature requests, please create an issue in the repository. Include detailed information to assist in addressing the problem.
 
 ## Credits
-CREDITS TO DoubleDebug [https://github.com/DoubleDebug](url)
+CREDITS TO DoubleDebug [https://github.com/DoubleDebug](https://github.com/DoubleDebug/wordle-speedrun)
