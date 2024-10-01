@@ -35,3 +35,6 @@ We welcome contributions to the project. Please feel free to submit bug fixes, i
 
 ## Raising an Issue
 If you encounter any bugs or have feature requests, please create an issue in the repository. Include detailed information to assist in addressing the problem.
+
+## CREDITS
+CREDITS TO DoubleDebug [https://github.com/DoubleDebug](url)
