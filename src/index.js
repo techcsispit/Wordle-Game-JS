@@ -5,69 +5,30 @@ import { testDictionary, realDictionary } from './dictionary.js';
 // Get difficulty select element
 const difficultySelect = document.getElementById('difficulty-select');
 // Word arrays for different difficulties
-let easyWords = [];
-let mediumWords = [];
-let hardWords = [];
+import  easyWords  from './data/easy_words.js';
+import  mediumWords  from './data/medium_words.js';
+import  hardWords  from './data/hard_words.js';
 
-// Function to load and convert CSV into an array
-function loadCSVToArray(filePath, callback) {
-  fetch(filePath)
-    .then(response => response.text()) // Get the file content as text
-    .then(data => {
-      const wordArray = data.trim().split('\n').map(word => word.trim()); // Split by new lines and trim spaces
-      callback(wordArray); // Pass the array to the callback function
-    })
-    .catch(error => console.error('Error loading CSV:', error));
-}
-
-
-
-
+// Initialize global variable for dictionary (word list based on difficulty)
+let dictionary = easyWords;
 function setGameDifficulty() {
   const difficulty = difficultySelect.value; // Get selected difficulty level
-
   difficultySelect.disabled = true; // Disable the difficulty selector once chosen
 
+  // Choose the correct word list based on the difficulty
   if (difficulty === 'easy') {
-    // Load words from easy.csv
-    loadCSVToArray('./data/easy_words.csv', (words) => {
-      easyWords = words;
-      startGame(easyWords);
-    });
+    dictionary = easyWords;
   } else if (difficulty === 'medium') {
-    // Load words from medium.csv
-    loadCSVToArray('./data/medium_words.csv', (words) => {
-      mediumWords = words;
-      startGame(mediumWords);
-    });
+    dictionary = mediumWords;
   } else if (difficulty === 'hard') {
-    // Load words from hard.csv
-    loadCSVFile('.data/hard_words.csv', (words) => {
-      hardWords = words;
-      startGame(hardWords);
-    });
+    dictionary = hardWords;
   }
-}
-// Attach event listener to trigger when difficulty is selected
-difficultySelect.addEventListener('change', setGameDifficulty);
 
-
-// Function to start the game once words are loaded
-function startGame(wordList) {
-  const dictionary = wordList;
-  state.secret = dictionary[Math.floor(Math.random() * dictionary.length)];
-  drawGrid(document.getElementById('game'));
-  registerKeyboardEvents();
 }
 
-
-
-
-
-const dictionary = realDictionary;
 // Game state and other functions remain unchanged
-const state = {
-  secret: '', // This will be set once we load the word list based on difficulty
+let state = {
+  secret: dictionary[Math.floor(Math.random() * dictionary.length)],
   grid: Array(6)
     .fill()
     .map(() => Array(5).fill('')),
@@ -138,7 +99,7 @@ function getCurrentWord() {
 }
 
 function isWordValid(word) {
-  return dictionary.includes(word);
+  return easyWords.includes(word) || mediumWords.includes(word) || hardWords.includes(word);
 }
 
 function getNumOfOccurrencesInWord(word, letter) {
