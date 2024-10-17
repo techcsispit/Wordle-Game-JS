@@ -1,11 +1,73 @@
 import { testDictionary, realDictionary } from './dictionary.js';
 
 // for testing purposes, make sure to use the test dictionary
-console.log('test dictionary:', testDictionary);
+// console.log('test dictionary:', testDictionary);
+// Get difficulty select element
+const difficultySelect = document.getElementById('difficulty-select');
+// Word arrays for different difficulties
+let easyWords = [];
+let mediumWords = [];
+let hardWords = [];
+
+// Function to load and convert CSV into an array
+function loadCSVToArray(filePath, callback) {
+  fetch(filePath)
+    .then(response => response.text()) // Get the file content as text
+    .then(data => {
+      const wordArray = data.trim().split('\n').map(word => word.trim()); // Split by new lines and trim spaces
+      callback(wordArray); // Pass the array to the callback function
+    })
+    .catch(error => console.error('Error loading CSV:', error));
+}
+
+
+
+
+function setGameDifficulty() {
+  const difficulty = difficultySelect.value; // Get selected difficulty level
+
+  difficultySelect.disabled = true; // Disable the difficulty selector once chosen
+
+  if (difficulty === 'easy') {
+    // Load words from easy.csv
+    loadCSVToArray('./data/easy_words.csv', (words) => {
+      easyWords = words;
+      startGame(easyWords);
+    });
+  } else if (difficulty === 'medium') {
+    // Load words from medium.csv
+    loadCSVToArray('./data/medium_words.csv', (words) => {
+      mediumWords = words;
+      startGame(mediumWords);
+    });
+  } else if (difficulty === 'hard') {
+    // Load words from hard.csv
+    loadCSVFile('.data/hard_words.csv', (words) => {
+      hardWords = words;
+      startGame(hardWords);
+    });
+  }
+}
+// Attach event listener to trigger when difficulty is selected
+difficultySelect.addEventListener('change', setGameDifficulty);
+
+
+// Function to start the game once words are loaded
+function startGame(wordList) {
+  const dictionary = wordList;
+  state.secret = dictionary[Math.floor(Math.random() * dictionary.length)];
+  drawGrid(document.getElementById('game'));
+  registerKeyboardEvents();
+}
+
+
+
+
 
 const dictionary = realDictionary;
+// Game state and other functions remain unchanged
 const state = {
-  secret: dictionary[Math.floor(Math.random() * dictionary.length)],
+  secret: '', // This will be set once we load the word list based on difficulty
   grid: Array(6)
     .fill()
     .map(() => Array(5).fill('')),
