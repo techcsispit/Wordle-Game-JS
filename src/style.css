@@ -109,3 +109,23 @@ hr {
   height: 25px;
   margin-right: 0.75rem;
 }
+
+.difficulty-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+label {
+  font-size: 18px;
+  margin-right: 10px;
+  color: #fff;
+}
+
+.difficulty-select {
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  background-color: #121213;
+  color: white;
+}

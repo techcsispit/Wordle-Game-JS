@@ -1,10 +1,33 @@
 import { testDictionary, realDictionary } from './dictionary.js';
 
 // for testing purposes, make sure to use the test dictionary
-console.log('test dictionary:', testDictionary);
+// console.log('test dictionary:', testDictionary);
+// Get difficulty select element
+const difficultySelect = document.getElementById('difficulty-select');
+// Word arrays for different difficulties
+import  easyWords  from './data/easy_words.js';
+import  mediumWords  from './data/medium_words.js';
+import  hardWords  from './data/hard_words.js';
 
-const dictionary = realDictionary;
-const state = {
+// Initialize global variable for dictionary (word list based on difficulty)
+let dictionary = easyWords;
+function setGameDifficulty() {
+  const difficulty = difficultySelect.value; // Get selected difficulty level
+  difficultySelect.disabled = true; // Disable the difficulty selector once chosen
+
+  // Choose the correct word list based on the difficulty
+  if (difficulty === 'easy') {
+    dictionary = easyWords;
+  } else if (difficulty === 'medium') {
+    dictionary = mediumWords;
+  } else if (difficulty === 'hard') {
+    dictionary = hardWords;
+  }
+
+}
+
+// Game state and other functions remain unchanged
+let state = {
   secret: dictionary[Math.floor(Math.random() * dictionary.length)],
   grid: Array(6)
     .fill()
@@ -76,7 +99,7 @@ function getCurrentWord() {
 }
 
 function isWordValid(word) {
-  return dictionary.includes(word);
+  return easyWords.includes(word) || mediumWords.includes(word) || hardWords.includes(word);
 }
 
 function getNumOfOccurrencesInWord(word, letter) {
