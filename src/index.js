@@ -9,6 +9,20 @@ import  easyWords  from './data/easy_words.js';
 import  mediumWords  from './data/medium_words.js';
 import  hardWords  from './data/hard_words.js';
 
+// Load sounds
+const winSound = new Audio('../assets/win.mp3');
+const errorSound = new Audio('../assets/error.mp3');
+
+// Play the win sound when the player wins
+function playWinSound() {
+  winSound.play();
+}
+
+// Play the error sound for incorrect guesses
+function playErrorSound() {
+  errorSound.play();
+}
+
 // Initialize global variable for dictionary (word list based on difficulty)
 let dictionary = easyWords;
 function setGameDifficulty() {
@@ -36,6 +50,7 @@ let state = {
   currentCol: 0,
 };
 
+console.log(state.secret)
 function drawGrid(container) {
   const grid = document.createElement('div');
   grid.className = 'grid';
@@ -126,6 +141,7 @@ function revealWord(guess) {
   const row = state.currentRow;
   const animation_duration = 500; // ms
 
+   
   for (let i = 0; i < 5; i++) {
     const box = document.getElementById(`box${row}${i}`);
     const letter = box.textContent;
@@ -135,12 +151,19 @@ function revealWord(guess) {
     );
     const numOfOccurrencesGuess = getNumOfOccurrencesInWord(guess, letter);
     const letterPosition = getPositionOfOccurrence(guess, letter, i);
-
+    if (
+      numOfOccurrencesGuess > numOfOccurrencesSecret &&
+      letterPosition > numOfOccurrencesSecret
+    ){
+    box.classList.add('shake');
+    }
     setTimeout(() => {
       if (
         numOfOccurrencesGuess > numOfOccurrencesSecret &&
         letterPosition > numOfOccurrencesSecret
       ) {
+        playErrorSound(); 
+
         box.classList.add('empty');
       } else {
         if (letter === state.secret[i]) {
@@ -162,7 +185,15 @@ function revealWord(guess) {
 
   setTimeout(() => {
     if (isWinner) {
-      alert('Congratulations!');
+            // Trigger confetti when the correct word is guessed
+            playWinSound();  
+            confetti({
+              particleCount: 100,
+              spread: 70,
+              origin: { y: 0.6 },
+            });
+      
+      // alert('Congratulations!');
     } else if (isGameOver) {
       alert(`Better luck next time! The word was ${state.secret}.`);
     }
